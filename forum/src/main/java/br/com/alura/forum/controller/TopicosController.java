@@ -2,6 +2,7 @@ package br.com.alura.forum.controller;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
@@ -65,26 +66,51 @@ public class TopicosController
 	}
 	
 	@GetMapping("/{id}")// esse nao vem como interrogação, que o spring pega de forma automática
-	public DetalhesDoTopicoDto detalhar(@PathVariable Long id) // anotação para pegar da url sem a interrogação
+	public ResponseEntity<DetalhesDoTopicoDto> detalhar(@PathVariable Long id) // anotação para pegar da url sem a interrogação
 	{
-		Topico topico = topicoRepository.getOne(id);
-		return new DetalhesDoTopicoDto(topico);
+		Optional<Topico> topicoOptional = topicoRepository.findById(id);
+		
+		if (topicoOptional.isPresent())
+		{
+			return ResponseEntity.ok(new DetalhesDoTopicoDto(topicoOptional.get())); 
+		}
+		else
+		{
+			return ResponseEntity.notFound().build();  //tratamento para caso não encontre o id
+		}
 	}
 	
 	@PutMapping("/{id}")
 	@Transactional // se tiver isso, o spring comita a trasancao no final do metodo e da update em dado de base se tiver
 	public ResponseEntity<TopicoDto> atualizar(@PathVariable Long id, @RequestBody @Valid AtualizacaoTopicoForm form)
 	{
-		Topico topico = form.atualizar(id, topicoRepository);
+		Optional<Topico> topicoOptional = topicoRepository.findById(id);
 		
-		return ResponseEntity.ok(new TopicoDto(topico));
+		if (topicoOptional.isPresent())
+		{
+			Topico topico = form.atualizar(id, topicoRepository);
+			return ResponseEntity.ok(new TopicoDto(topico));
+		}
+		else
+		{
+			return ResponseEntity.notFound().build();  //tratamento para caso não encontre o id
+		}
 	}
 	
 	@DeleteMapping("/{id}")
 	@Transactional
 	public ResponseEntity<?> remover(@PathVariable Long id)
 	{
-		topicoRepository.deleteById(id);
-		return ResponseEntity.ok().build();
+		Optional<Topico> topicoOptional = topicoRepository.findById(id);
+		
+		if (topicoOptional.isPresent())
+		{
+			topicoRepository.deleteById(id);
+			return ResponseEntity.ok().build(); 
+		}
+		else
+		{
+			return ResponseEntity.notFound().build();  //tratamento para caso não encontre o id
+		}
 	}
 }
