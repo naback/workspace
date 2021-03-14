@@ -6,37 +6,16 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class Usuario
-{
+public class Usuario {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String nome;
 	private String email;
 	private String senha;
-	
-	public Usuario()
-	{
-		super();
-		this.id = null;
-		this.nome = null;
-		this.email = null;
-		this.senha = null;
-	}
-
-	public Usuario(Long id, String nome, String email, String senha)
-	{
-		super();
-		this.id = id;
-		this.nome = nome;
-		this.email = email;
-		this.senha = senha;
-	}
 
 	@Override
-	public int hashCode()
-	{
+	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
@@ -44,8 +23,7 @@ public class Usuario
 	}
 
 	@Override
-	public boolean equals(Object obj)
-	{
+	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
 		if (obj == null)
@@ -53,8 +31,7 @@ public class Usuario
 		if (getClass() != obj.getClass())
 			return false;
 		Usuario other = (Usuario) obj;
-		if (id == null)
-		{
+		if (id == null) {
 			if (other.id != null)
 				return false;
 		} else if (!id.equals(other.id))
@@ -62,43 +39,35 @@ public class Usuario
 		return true;
 	}
 
-	public Long getId()
-	{
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Long id)
-	{
+	public void setId(Long id) {
 		this.id = id;
 	}
 
-	public String getNome()
-	{
+	public String getNome() {
 		return nome;
 	}
 
-	public void setNome(String nome)
-	{
+	public void setNome(String nome) {
 		this.nome = nome;
 	}
 
-	public String getEmail()
-	{
+	public String getEmail() {
 		return email;
 	}
 
-	public void setEmail(String email)
-	{
+	public void setEmail(String email) {
 		this.email = email;
 	}
 
-	public String getSenha()
-	{
+	public String getSenha() {
 		return senha;
 	}
 
-	public void setSenha(String senha)
-	{
+	public void setSenha(String senha) {
 		this.senha = senha;
 	}
 

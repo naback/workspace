@@ -1,40 +1,23 @@
 package br.com.alura.forum.config.validacao;
 
-public class ErroDeFormularioDto
-{
+public class ErroDeFormularioDto {
+	
 	private String campo;
-	private String mensagem;
-
-	public ErroDeFormularioDto()
-	{
-		// TODO Auto-generated constructor stub
-	}
-
-	public ErroDeFormularioDto(String campo, String mensagem)
-	{
-		super();
+	private String erro;
+	
+	public ErroDeFormularioDto(String campo, String erro) {
 		this.campo = campo;
-		this.mensagem = mensagem;
+		this.erro = erro;
 	}
 
-	public String getCampo()
-	{
+	public String getCampo() {
 		return campo;
 	}
 
-	public void setCampo(String campo)
-	{
-		this.campo = campo;
+	public String getErro() {
+		return erro;
 	}
-
-	public String getMensagem()
-	{
-		return mensagem;
-	}
-
-	public void setMensagem(String mensagem)
-	{
-		this.mensagem = mensagem;
-	}
+	
+	
 
 }

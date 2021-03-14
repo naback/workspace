@@ -13,25 +13,25 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-@RestControllerAdvice // vai tratar as exceções em qualquer RESTCONTROLLER
-public class ErroDeValidacaoHandler
-{
+@RestControllerAdvice
+public class ErroDeValidacaoHandler {
+	
 	@Autowired
 	private MessageSource messageSource;
 	
-	@ResponseStatus(code = HttpStatus.BAD_REQUEST) // se não fizer isso, ele devolve 200 na resposta
+	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(MethodArgumentNotValidException.class)
-	public List<ErroDeFormularioDto> handle(MethodArgumentNotValidException exception)
-	{
-		List<ErroDeFormularioDto> dto = new ArrayList<ErroDeFormularioDto>();
-		List<FieldError> fieldErrors = exception.getBindingResult().getFieldErrors();
+	public List<ErroDeFormularioDto> handle(MethodArgumentNotValidException exception) {
+		List<ErroDeFormularioDto> dto = new ArrayList<>();
 		
-		for (FieldError fieldError : fieldErrors)
-		{
-			ErroDeFormularioDto erro = new ErroDeFormularioDto(fieldError.getField(), messageSource.getMessage(fieldError, LocaleContextHolder.getLocale()));
+		List<FieldError> fieldErrors = exception.getBindingResult().getFieldErrors();
+		fieldErrors.forEach(e -> {
+			String mensagem = messageSource.getMessage(e, LocaleContextHolder.getLocale());
+			ErroDeFormularioDto erro = new ErroDeFormularioDto(e.getField(), mensagem);
 			dto.add(erro);
-		}
+		});
 		
 		return dto;
 	}
+
 }

@@ -9,48 +9,42 @@ import br.com.alura.forum.modelo.Curso;
 import br.com.alura.forum.modelo.Topico;
 import br.com.alura.forum.repository.CursoRepository;
 
-public class TopicoForm
-{
-	@NotNull @NotEmpty @Length(min = 1, max = 50)
-	private final String titulo;
+public class TopicoForm {
+
+	@NotNull @NotEmpty @Length(min = 5)
+	private String titulo;
+	
+	@NotNull @NotEmpty @Length(min = 10)
+	private String mensagem;
+	
 	@NotNull @NotEmpty
-	private final String mensagem;
-	@NotNull @NotEmpty
-	private final String nomeCurso;
+	private String nomeCurso;
 
-	public TopicoForm()
-	{
-		super();
-		this.titulo = null;
-		this.mensagem = null;
-		this.nomeCurso = null;
-	}
-
-	public TopicoForm(String titulo, String mensagem, String nomeCurso)
-	{
-		super();
-		this.titulo = titulo;
-		this.mensagem = mensagem;
-		this.nomeCurso = nomeCurso;
-	}
-
-	public String getTitulo()
-	{
+	public String getTitulo() {
 		return titulo;
 	}
 
-	public String getMensagem()
-	{
+	public void setTitulo(String titulo) {
+		this.titulo = titulo;
+	}
+
+	public String getMensagem() {
 		return mensagem;
 	}
 
-	public String getNomeCurso()
-	{
+	public void setMensagem(String mensagem) {
+		this.mensagem = mensagem;
+	}
+
+	public String getNomeCurso() {
 		return nomeCurso;
 	}
 
-	public Topico converter(CursoRepository cursoRepository)
-	{
+	public void setNomeCurso(String nomeCurso) {
+		this.nomeCurso = nomeCurso;
+	}
+
+	public Topico converter(CursoRepository cursoRepository) {
 		Curso curso = cursoRepository.findByNome(nomeCurso);
 		return new Topico(titulo, mensagem, curso);
 	}
