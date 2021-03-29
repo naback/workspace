@@ -67,7 +67,7 @@ public class TopicosController
     @GetMapping("/{id}")
     public ResponseEntity<DetalhesDoTopicoDto> detalhar(@PathVariable Long id)
     {
-        Optional<Topico> topico = topicoRepository.findById(id);
+        Optional<Topico> topico = topicoRepository.findById(id); // Esse optional é utilizado porquê pode ser que retorne erro ao invés do objeto. Creio que dê pra resolver isso de uma forma mais intuitiva.
         if (topico.isPresent()) {
             return ResponseEntity.ok(new DetalhesDoTopicoDto(topico.get()));
         }
@@ -80,7 +80,7 @@ public class TopicosController
     @CacheEvict(value = "listaDeTopicos", allEntries = true)   // LIMPEZA DE CACHE DEVIDO A ALTERAÇÃO DE REGISTROS NA TABELA QUE UTILIZA CACHE
     public ResponseEntity<TopicoDto> atualizar(@PathVariable Long id, @RequestBody @Valid AtualizacaoTopicoForm form)
     {
-        Optional<Topico> optional = topicoRepository.findById(id);
+        Optional<Topico> optional = topicoRepository.findById(id); // Esse optional é utilizado porquê pode ser que retorne erro ao invés do objeto. Creio que dê pra resolver isso de uma forma mais intuitiva.
         if (optional.isPresent()) {
             Topico topico = form.atualizar(id, topicoRepository);
             return ResponseEntity.ok(new TopicoDto(topico));
@@ -94,7 +94,7 @@ public class TopicosController
     @CacheEvict(value = "listaDeTopicos", allEntries = true)   // LIMPEZA DE CACHE DEVIDO A ALTERAÇÃO DE REGISTROS NA TABELA QUE UTILIZA CACHE
     public ResponseEntity<?> remover(@PathVariable Long id)
     {
-        Optional<Topico> optional = topicoRepository.findById(id);
+        Optional<Topico> optional = topicoRepository.findById(id);  // Esse optional é utilizado porquê pode ser que retorne erro ao invés do objeto. Creio que dê pra resolver isso de uma forma mais intuitiva.
         if (optional.isPresent()) {
             topicoRepository.deleteById(id);
             return ResponseEntity.ok().build();
