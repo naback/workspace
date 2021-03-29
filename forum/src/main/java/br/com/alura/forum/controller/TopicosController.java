@@ -39,7 +39,7 @@ public class TopicosController
     private CursoRepository cursoRepository;
 
     @GetMapping
-    @Cacheable(value = "listaDeTopicos")
+    @Cacheable(value = "listaDeTopicos") // CACHE GERALMENTE É UTILIZADO EM TABELAS QUE NÃO SÃO ATUALIZADAS COM FREQUÊNCIA, POIS AS OPERAÇÕES DE EVICT E CRIAÇÃO DE CACHE PODEM ACABAR GERANDO CUSTOS ADICIONAIS DE PROCESSAMENTO NA APLICAÇÃO
     public Page<TopicoDto> lista(@RequestParam(required = false) String nomeCurso,
                                  @PageableDefault(sort = "id", direction = Sort.Direction.ASC, page = 0, size = 10) Pageable paginacao)
     {
@@ -54,7 +54,7 @@ public class TopicosController
 
     @PostMapping
     @Transactional
-    @CacheEvict(value = "listaDeTopicos", allEntries = true)
+    @CacheEvict(value = "listaDeTopicos", allEntries = true)  // LIMPEZA DE CACHE DEVIDO A ALTERAÇÃO DE REGISTROS NA TABELA QUE UTILIZA CACHE
     public ResponseEntity<TopicoDto> cadastrar(@RequestBody @Valid TopicoForm form, UriComponentsBuilder uriBuilder)
     {
         Topico topico = form.converter(cursoRepository);
@@ -77,7 +77,7 @@ public class TopicosController
 
     @PutMapping("/{id}")
     @Transactional
-    @CacheEvict(value = "listaDeTopicos", allEntries = true)
+    @CacheEvict(value = "listaDeTopicos", allEntries = true)   // LIMPEZA DE CACHE DEVIDO A ALTERAÇÃO DE REGISTROS NA TABELA QUE UTILIZA CACHE
     public ResponseEntity<TopicoDto> atualizar(@PathVariable Long id, @RequestBody @Valid AtualizacaoTopicoForm form)
     {
         Optional<Topico> optional = topicoRepository.findById(id);
@@ -91,7 +91,7 @@ public class TopicosController
 
     @DeleteMapping("/{id}")
     @Transactional
-    @CacheEvict(value = "listaDeTopicos", allEntries = true)
+    @CacheEvict(value = "listaDeTopicos", allEntries = true)   // LIMPEZA DE CACHE DEVIDO A ALTERAÇÃO DE REGISTROS NA TABELA QUE UTILIZA CACHE
     public ResponseEntity<?> remover(@PathVariable Long id)
     {
         Optional<Topico> optional = topicoRepository.findById(id);
