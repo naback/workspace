@@ -25,7 +25,9 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter
     {
         http.authorizeRequests()
                 .antMatchers(HttpMethod.GET, "/topicos").permitAll()
-                .antMatchers(HttpMethod.GET, "/topicos/*").permitAll();
+                .antMatchers(HttpMethod.GET, "/topicos/*").permitAll()
+                .anyRequest().authenticated() // Para qualquer outra requisição, o cliente tem que estar autenticado.
+                .and().formLogin(); // Esse método fala para o Spring gerar um formulário de autenticação padrão do Spring(de login no browser).
 
         super.configure(http);
     }
