@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @EnableWebSecurity
@@ -30,10 +31,23 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter
     {
         http.authorizeRequests()
                 .antMatchers(HttpMethod.GET, "/topicos").permitAll()
+                .antMatchers(HttpMethod.POST, "/auth").permitAll()
                 .antMatchers(HttpMethod.GET, "/topicos/*").permitAll()
                 .anyRequest().authenticated() // Para qualquer outra requisição, o cliente tem que estar autenticado.
-                .and().formLogin(); // Esse método fala para o Spring gerar um formulário de autenticação padrão do Spring(de login no browser).
+                .and().csrf().disable()  // csrf: cross site request forjure -> tipo de ataque hacker. Porém iremos desabilitar essa segurança, pois nossa autenticação será via Token e é imune à esse ataque.
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS); // Tá avisando pro Spring que quando fizermos autenticação, não é para criar sessão.
     }
+
+//    Autenticação por user e login (statefull, não recomendada em REST) afinal, formulario de login tem que ficar na aplicação front-end, não no back-end
+//    @Override
+//    protected void configure(HttpSecurity http) throws Exception
+//    {
+//        http.authorizeRequests()
+//                .antMatchers(HttpMethod.GET, "/topicos").permitAll()
+//                .antMatchers(HttpMethod.GET, "/topicos/*").permitAll()
+//                .anyRequest().authenticated() // Para qualquer outra requisição, o cliente tem que estar autenticado.
+//                .and().formLogin(); // Esse método fala para o Spring gerar um formulário de autenticação padrão do Spring(de login no browser).
+//    }
 
     // Configurações de Recursos Estáticos(requisições de arquivos: css, js, imagens, etc). Não é o nosso caso, por essa aplicação ser somente back-end.
     @Override
