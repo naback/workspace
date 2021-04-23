@@ -21,6 +21,9 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter
     @Autowired
     private AutenticacaoService autenticacaoService;
 
+    @Autowired
+    private TokenService tokenService;
+
     // Configurações de Autenticação(controle de acesso, login e tal).
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception
@@ -39,7 +42,7 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter
                 .anyRequest().authenticated() // Para qualquer outra requisição, o cliente tem que estar autenticado.
                 .and().csrf().disable()  // csrf: cross site request forjure -> tipo de ataque hacker. Porém iremos desabilitar essa segurança, pois nossa autenticação será via Token e é imune à esse ataque.
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // Tá avisando pro Spring que quando fizermos autenticação, não é para criar sessão.
-                .and().addFilterBefore(new AutenticacaoViaTokenFilter(), UsernamePasswordAuthenticationFilter.class);  // Indicando para o Spring que ele deve rodar o nosso filtro de pegar o token antes de qualquer coisa.
+                .and().addFilterBefore(new AutenticacaoViaTokenFilter(tokenService), UsernamePasswordAuthenticationFilter.class);  // Indicando para o Spring que ele deve rodar o nosso filtro de pegar o token antes de qualquer coisa.
     }
 
 //    Autenticação por user e login (statefull, não recomendada em REST) afinal, formulario de login tem que ficar na aplicação front-end, não no back-end
