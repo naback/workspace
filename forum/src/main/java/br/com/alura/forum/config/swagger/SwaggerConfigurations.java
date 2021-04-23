@@ -24,13 +24,13 @@ public class SwaggerConfigurations
                 .paths(PathSelectors.ant("/**"))
                 .build()
                 .ignoredParameterTypes(Usuario.class)
-                .globalOperationParameters(
+                .globalOperationParameters(  // Método para inserção de parâmetros novos nos testes utilizando o Swagger.
                         Arrays.asList(
-                                new ParameterBuilder()
+                                new ParameterBuilder()          // Recebe um Array com os parâmetros novos à serem inseridos.
                                         .name("Authorization")
                                         .description("Header para Token JWT")
                                         .modelRef(new ModelRef("string"))
-                                        .parameterType("header")
+                                        .parameterType("header")  // Aqui que determina o que ele vai ser, no caso header.
                                         .required(false)
                                         .build()));
     }
