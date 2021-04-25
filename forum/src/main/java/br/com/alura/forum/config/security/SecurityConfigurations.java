@@ -44,7 +44,7 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter
                 .antMatchers(HttpMethod.POST, "/auth").permitAll()
                 .antMatchers(HttpMethod.GET, "/topicos/*").permitAll()
                 .antMatchers(HttpMethod.GET, "/actuator/**").permitAll()  // depois isso deve ficar com alguma segurança (em produção)
-                .antMatchers(HttpMethod.GET, "/actuator").permitAll()  // depois isso deve ficar com alguma segurança (em produção)
+                .antMatchers(HttpMethod.DELETE, "/topicos/*").hasRole("MODERADOR")
                 .anyRequest().authenticated() // Para qualquer outra requisição, o cliente tem que estar autenticado.
                 .and().csrf().disable()  // csrf: cross site request forjure -> tipo de ataque hacker. Porém iremos desabilitar essa segurança, pois nossa autenticação será via Token e é imune à esse ataque.
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // Tá avisando pro Spring que quando fizermos autenticação, não é para criar sessão.
