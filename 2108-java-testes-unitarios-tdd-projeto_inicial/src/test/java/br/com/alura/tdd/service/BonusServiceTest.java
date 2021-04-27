@@ -26,7 +26,7 @@ public class BonusServiceTest
 
         Assertions.assertEquals(new BigDecimal("250.00"), bonus);
     }
-
+ 
     @Test
     void bonusDeveriaSerDezPorCentoParaSalarioDe10000()
     {
