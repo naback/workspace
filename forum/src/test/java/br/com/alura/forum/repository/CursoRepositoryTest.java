@@ -24,4 +24,13 @@ public class CursoRepositoryTest
         Assertions.assertNotNull(curso);
         Assertions.assertEquals(nomeCurso, curso.getNome());
     }
+
+    @Test
+    public void naoDeveriaCarregarUmCursoAoBuscarPeloNomeQueNaoExiste()
+    {
+        String nomeCurso = "JPA";
+        Curso curso = repository.findByNome(nomeCurso);
+
+        Assertions.assertNull(curso);
+    }
 }
